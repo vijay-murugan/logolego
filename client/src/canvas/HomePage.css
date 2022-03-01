@@ -1,0 +1,232 @@
+textarea {
+    width: 50%;
+    height: 50px;
+    padding: 12px 20px;
+    margin: 20px 20px 10px 60px;
+    box-sizing: border-box;
+    border: 2px solid rgb(206, 196, 196);
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 16px;
+    resize: none;
+
+  }
+
+textarea:hover{
+  border: 2px solid #f7ddd4;
+  box-shadow: 3px 3px 12px 3px #cfcfd6;
+}
+
+
+
+img{
+  margin: 0px 20px 10px 60px;
+}
+
+button{
+  margin: 0px 0px 0px 0px;
+  flex:1;
+  
+}
+
+.btn-primary {
+  color: white;
+  background-color: #f87a47;
+  border-color: #ff4800;
+  border-radius: 3px;
+  
+}
+
+.btn-primary:hover {
+  color: #f87a47;
+  background-color: WHITE;
+  border-color: #303636
+}
+
+.btn-primary:active
+{
+    background-color:grey !important; /* add here any color */
+}
+
+.btn-primary:focus{
+  background-color: #EB984E;
+  border-color: #EB984E;
+  box-shadow: 3px 2px 6px 1px rgb(233, 171, 100);
+}
+
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #EB984E;
+  border-color: #EB984E;
+ 
+}
+
+
+.btn-primary:visited{
+
+  box-shadow: 3px 2px 22px 1px rgb(255, 209, 4);
+}
+
+.tweet-text-area{
+  height:300px;
+  width:200px;
+  margin:0px;
+  padding:15px;
+}
+
+#preview{
+  display: flex;
+}
+
+#preview-image{
+  flex:1;
+
+}
+
+
+
+.textzone::-webkit-scrollbar {
+  display: none;
+}
+#myInput {
+  width: 750px;
+  display: inline-block;
+}
+
+#logo {
+  margin-top: 10px;
+  margin-right:10px;
+}
+
+#dropzone-area{
+  display:grid;
+  grid-auto-flow: column;
+  grid-auto-rows: 150px;
+  margin-left: 0px;
+}
+
+.dropzone{
+  display:grid;
+  margin-left: 500px;
+  
+}
+
+.myInput{
+  display:grid;
+}
+
+.container{
+  display: grid;
+  /* grid-template-columns: 0fr 0fr ; */
+  grid-auto-flow: column;
+  grid-auto-rows: 150px;
+  margin-left: 0px;
+}
+
+.bts{
+  display: grid;
+  margin-left: 0px;
+  /* grid-template-columns: 0fr; */
+   
+}
+
+.tweet-text{
+  margin-left:100px;
+  flex:1;
+}
+
+#tweet-text-id{
+  font-size: 18pt;
+   height: 50px; 
+   width: 800px; 
+}
+
+#reset-btn{
+  margin-top:5px;
+  margin-left:1px;
+}
+
+#publish-btn{
+  margin-top:5px;
+  margin-left:745px;
+}
+
+#child-canvas{
+  margin-left:25px;
+  display:inline-flex;
+}
+
+.child-preview{
+display: block;
+float:left; 
+}
+
+.twitter-share-button{
+  display: inline-flex;
+  /* align-self: flex-end; */
+  color: #fff;
+  background-color: #f87a47;
+  border-color: #ff4800;
+  padding: 9px 18px;
+  border-radius: 5px;
+  margin:16px ;
+  text-decoration: none;
+}
+
+
+/* .upload-icon {
+
+  background-size: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px;
+} */
+
+/* .drop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 40px;
+  width: 400px;
+  height: 100px;
+  border: 4px dashed #f87a47;
+} */
+
+.twitter-share-button:hover {
+  color: #f87a47;
+  background-color: WHITE;
+  border-color: #303636
+}
+
+
+#yt-video {
+  margin-top: 50px;
+}
+
+#canvas-show-btn{
+ 
+  /* margin-top: 25px; */
+  display: inline-flex;
+}
+
+#search-btn{
+  margin-top:25px;
+  float:right;
+}
+
+#input-area{
+  display: table;
+  clear: both;
+}
+
+#canvas-hide-btn{
+ margin-left:1375px;
+  border-radius: 40px;
+
+}
+
+#preview-btn{
+  margin-left:1300px;
+  display:inline-flex;
+  border-radius: 40px;
+}
