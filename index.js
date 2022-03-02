@@ -28,7 +28,7 @@ app.get('/getData', cors(corsOptions), async (req, res) => {
   console.log(response)
 });
 
-app.use("/", routeHandler);
+app.use("/api", routeHandler);
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));

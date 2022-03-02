@@ -26,29 +26,8 @@ import axios from "axios";
 const imageToBase64 = require("image-to-base64");
 
 uuidv1();
-//https://www.google.com/s2/favicons?sz=128&domain_url=yahoo.com
-//https://www.google.com/s2/favicons?sz=64&domain_url=microsoft.com
-//Image drag drop with URLImage
-// const URLImage = ({ image }) => {
-//   const [img] = useImage(image.src);
-//   return (
-//     <Image
-//       image={img}
-//       x={image.x}
-//       y={image.y}
-//       offsetX={img ? img.width / 2 : 0}
-//       offsetY={img ? img.height / 2 : 0}
-//     />
-//   );
-// };
 
-let history = [
-  {
-    x: 20,
-    y: 20,
-  },
-];
-let historyStep = 0;
+
 
 const URLImage = ({
   image,
@@ -340,8 +319,8 @@ function HomePage() {
     const payload = {
       img: dataURL,
     };
-    fetch("https://wba-a.herokuapp.com/api/tmp/url", {
-      // fetch("http://localhost:5000/api/tmp/url", {
+ //   fetch("https://wba-a.herokuapp.com/api/tmp/url", {
+      fetch("http://localhost:5000/api/tmp/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -395,8 +374,8 @@ function HomePage() {
     // console.log(JSON.stringify(payload))
 
     //data.append("json", JSON.stringify(payload))
-    fetch("https://wba-a.herokuapp.com/save", {
-      // fetch("http://localhost:5000/save", {
+   // fetch("https://wba-a.herokuapp.com/api/save", {
+      fetch("http://localhost:5000/api/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

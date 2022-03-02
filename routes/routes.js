@@ -27,7 +27,7 @@ function base64_encode(file) {
   return new Buffer(bitmap).toString('base64');
 }
 
-route.get('/', function(req,res){
+route.get('/api', function(req,res){
   res.send("Hello")
     // Image.find({}, function(err,docs){
     //     if(err) res.json(err);
@@ -54,34 +54,6 @@ const conv = (url) =>{
 return x;
 }
 
-const fn = (pay) =>{
-  const payload = {
-    img: pay,
-  };
-  console.log(payload)
-//  if(typeof payload !== undefined)
-//  {
-//    console.log("not udf")
-//  }
-  // const image = new Image(payload);
-  
-  //   image.save(function(err,imag){
-  //       var im = imag._id;
-        
-  //       if(err){
-  //           res.status(500).json({msg: "Internal error "})
-  //           console.log("error")
-  //       }
-  //       else{
-  //           // res.json({
-  //           //     msg: "Recieved"
-  //           // })
-  //           // res.send(im)
-  //           console.log("no error")
-  //       }
-  //       console.log(im)
-  //   })
-}
 
   route.post('/api/tmp',jsonParser,(req,res) => {
     const data = req.body;
@@ -132,7 +104,7 @@ const fn = (pay) =>{
   });
   
 
-  route.get('/images/:id', (req, res) => {
+  route.get('/api/images/:id', (req, res) => {
     Image.findOne({_id: req.params.id}, (err, result) => {
       if (err) {
           console.log(req.params.id)
@@ -145,19 +117,9 @@ const fn = (pay) =>{
     });
   })
 
-// route.get('/save',(req,res) => {
-//     const image = new Image({
-//         img: req.body
-//     });
-//     image.save().then((result) => {
-//         res.send(result)
-//     }).catch((err)=>{
-//         console.log(err);
-//     })
-// })
 
 
-route.post('/save',jsonParser,function(req,res) {
+route.post('/api/save',jsonParser,function(req,res) {
     const data = req.body;
     console.log("body= ",data)
     const image = new Image(data);
@@ -167,9 +129,6 @@ route.post('/save',jsonParser,function(req,res) {
             res.status(500).json({msg: "Internal error "})
         }
         else{
-            // res.json({
-            //     msg: "Recieved"
-            // })
             res.send(im)
         }
         console.log(im)
