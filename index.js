@@ -15,7 +15,7 @@ const upload = multer({ dest: "public/files" });
 let cors = require("cors");
 app.use(cors());
 const corsOptions = {
-  origin: "https://frosty-lumiere-178f71.netlify.app"
+  origin: "https://logolego.bookmane.in"
 };
 
 app.get('/getData', cors(corsOptions), async (req, res) => {
@@ -46,7 +46,8 @@ app.use(bodyParser.json());
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      "mongodb+srv://Vijay:RWHVGUd17nl3ewJe@cluster0.w5mit.mongodb.net/WhiteboardApp?retryWrites=true&w=majority",
+      'mongodb://localhost:27017/Logolego',
+      // "mongodb+srv://Vijay:RWHVGUd17nl3ewJe@cluster0.w5mit.mongodb.net/WhiteboardApp?retryWrites=true&w=majority",
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
