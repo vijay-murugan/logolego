@@ -319,7 +319,7 @@ function HomePage() {
     const payload = {
       img: dataURL,
     };
- //   fetch("https://wba-a.herokuapp.com/api/tmp/url", {
+    // fetch("http://localhost:5000/api/tmp/url", {
       fetch("https://logolego.bookmane.in/api/tmp/url", {
       method: "POST",
       headers: {
@@ -374,7 +374,7 @@ function HomePage() {
     // console.log(JSON.stringify(payload))
 
     //data.append("json", JSON.stringify(payload))
-   // fetch("https://wba-a.herokuapp.com/api/save", {
+    // fetch("http://localhost:5000/api/tmp/save", {
       fetch("https://logolego.bookmane.in/api/save", {
       method: "POST",
       headers: {

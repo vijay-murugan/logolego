@@ -11,7 +11,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 const PORT = process.env.PORT || 5000;
 const upload = multer({ dest: "public/files" });
-
+var routers = require('./routes/routes')
 let cors = require("cors");
 app.use(cors());
 const corsOptions = {
@@ -29,6 +29,7 @@ app.get('/getData', cors(corsOptions), async (req, res) => {
 });
 
 app.use("/api", routeHandler);
+app.use('/api/routes', routers);
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
