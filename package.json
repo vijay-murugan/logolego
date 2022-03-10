@@ -1,15 +1,15 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Backend for the whiteboard app",
+  "description": "Backend for logolego",
   "main": "index.js",
+  
   "scripts": {
     "server": "node index.js",
     
     "client" : "npm start --prefix ./client",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
-  "proxy": "https://frosty-lumiere-178f71.netlify.app/images/",
   "author": "Vijay Murugan A S",
   "license": "ISC",
   "dependencies": {

@@ -8,6 +8,7 @@ const Image = require('./models/images');
 const multer = require("multer");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+const path = require('path')
 
 const PORT = process.env.PORT || 5000;
 const upload = multer({ dest: "public/files" });
@@ -15,8 +16,47 @@ var routers = require('./routes/routes')
 let cors = require("cors");
 app.use(cors());
 const corsOptions = {
-  origin: "https://logolego.bookmane.in"
+  origin: "http://localhost:5000"//"https://logolego.bookmane.in"
 };
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.get('/', function(req, res) {
+  const filepath = path.resolve(__dirname,'client', 'build', 'index.html');
+  fs.readFile(filepath, 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+  res.send(result);
+  });
+});
+
+app.use(express.static('client/build'));
+
+app.get('*', function(request, response) {
+  const filePath = path.resolve(__dirname, 'client', 'build', 'index.html');
+  response.sendFile(filePath);
+});
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 
 app.get('/getData', cors(corsOptions), async (req, res) => {
   const fetchOptions = {
@@ -33,7 +73,7 @@ app.use('/api/routes', routers);
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use(bodyParser.json());
 
 
@@ -66,7 +106,7 @@ app.get('*', (req,res)=>{
   res.sendFile(path.resolve(__dirname,'client', 'build', 'index.html'))
 })
 
-connectDB()
+// connectDB()
 
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
