@@ -289,8 +289,8 @@ function HomePage() {
     const payload = {
       img: dataURL,
     };
-    // fetch("https://logolego.bookmane.in/api/tmp", {
-      fetch("http://localhost:5000/api/tmp", {
+    fetch("https://logolego.bookmane.in/api/tmp", {
+      // fetch("http://localhost:5000/api/tmp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -319,8 +319,8 @@ function HomePage() {
     const payload = {
       img: dataURL,
     };
-    fetch("http://localhost:5000/api/tmp/url", {
-      // fetch("https://logolego.bookmane.in/api/tmp/url", {
+    // fetch("http://localhost:5000/api/tmp/url", {
+      fetch("https://logolego.bookmane.in/api/tmp/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -374,8 +374,8 @@ function HomePage() {
     // console.log(JSON.stringify(payload))
 
     //data.append("json", JSON.stringify(payload))
-    fetch("http://localhost:5000/api/tmp/save", {
-      // fetch("https://logolego.bookmane.in/api/save", {
+    // fetch("http://localhost:5000/api/tmp/save", {
+      fetch("https://logolego.bookmane.in/api/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

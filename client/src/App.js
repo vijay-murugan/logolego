@@ -5,7 +5,7 @@ import Images from "./components/images"
 import "./App.css";
 import { Container } from "react-bootstrap";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Link,
@@ -15,15 +15,20 @@ import React, { Component }  from 'react';
 
 function App() {
   return (
-    <BrowserRouter>
-    
+    // <Router>
+   <BrowserRouter> 
     {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/home" element={<Login />}></Route>
+        <Route exact path="/" element={<HomePage />}></Route>
         <Route path = "/images/:id" element = {<Images/>}/>
+        {/* <Route path="/home" element={<Login />}></Route> */}
+        {/* <Route exact path='/images' component={<Images/>} /> */}
+       
+        {/* <Route path = "/images" element = {<Images/>}></Route> */}
       </Routes>
+      {/* </Router> */}
     </BrowserRouter>
+
   );
 }
 export default App;

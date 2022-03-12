@@ -96,18 +96,19 @@ return x;
   });
   
 
-  route.get('/images/:id', (req, res) => {
-    Image.findOne({_id: req.params.id}, (err, result) => {
-      if (err) {
-          console.log(req.params.id)
-        console.log( "Failed to get clients.")
-      } else {
-        
-        res.send(result.img)
+  // route.get('/images/:id', (req, res) => {
+  //   console.log("a")
+  //   Image.findOne({_id: req.params.id}, (err, result) => {
+  //     if (err) {
+  //         console.log(req.params.id)
+  //       console.log( "Failed to get clients.")
+  //     } else {
+  //       console.log("saf")
+  //       res.send(result.img)
        
-      }
-    });
-  })
+  //     }
+  //   });
+  // })
 
 
 

@@ -8,10 +8,10 @@ const Image = require('./models/images');
 const multer = require("multer");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-const path = require('path')
+const path = require('path');
+
 
 const PORT = process.env.PORT || 5000;
-const upload = multer({ dest: "public/files" });
 var routers = require('./routes/routes')
 let cors = require("cors");
 app.use(cors());
@@ -27,37 +27,44 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.get('/', function(req, res) {
-//   const filepath = path.resolve(__dirname,'client', 'build', 'index.html');
-//   fs.readFile(filepath, 'utf8', function (err,data) {
+
+
+app.get('/api/images/:id', (req, res) => {
+  Image.findOne({_id: req.params.id}, (err, result) => {
+    if (err) {
+        console.log(req.params.id)
+      console.log( "Failed to get clients.")
+    } else {
+      
+      res.send(result.img)
+     
+    }
+  });
+})
+
+// app.get('/api/images/:id', (req, res) => {
+//   console.log("called");
+//   Image.findOne({_id: req.params.id}, (err, result) => {
 //     if (err) {
-//       return console.log(err);
+//         console.log(req.params.id)
+//       console.log( "Failed to get clients.")
+//     } else {
+//       console.log("sent")
+//       res.send(result.img)
+     
 //     }
-//   res.send(result);
 //   });
-// });
+// })
+
 
 app.use(express.static('./client/build'));
 
-app.get('*', function(request, response) {
+app.get('/*', function(request, response) {
   const filePath = path.resolve(__dirname, 'client', 'build', 'index.html');
   response.sendFile(filePath);
 });
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
 
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
 
 
 app.get('/getData', cors(corsOptions), async (req, res) => {
@@ -72,6 +79,7 @@ app.get('/getData', cors(corsOptions), async (req, res) => {
 
 app.use("/api", routeHandler);
 app.use('/api/routes', routers);
+
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));

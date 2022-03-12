@@ -8,8 +8,8 @@ const Images = () => {
   const [data,setData]=useState([]);
   const display = () => {
 
-  // axios.get(`https://logolego.bookmane.in/api/images/${id}`).then((response)=> {         
-    axios.get(`https://localhost:5000/api/images/${id}`).then((response)=> {    
+  axios.get(`http://localhost:5000/api/images/${id}`).then((response)=> {         
+    console.log(response)
   setData(response)
 });
   }
@@ -23,5 +23,3 @@ const Images = () => {
   )
 }
 export default Images;
-
-
