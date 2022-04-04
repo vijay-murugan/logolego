@@ -27,8 +27,6 @@ const imageToBase64 = require("image-to-base64");
 
 uuidv1();
 
-
-
 const URLImage = ({
   image,
   shapeProps,
@@ -141,7 +139,9 @@ const URLImage = ({
 
 function HomePage() {
   const [rectangles, setRectangles] = useState([]);
+  const [text, setText] = useState([]);
   const [circles, setCircles] = useState([]);
+  const [image, setImage] = useState([]);
   const [selectedId, selectShape] = useState(null);
   const [shapes, setShapes] = React.useState([]);
   const [, updateState] = React.useState();
@@ -152,18 +152,21 @@ function HomePage() {
   const dragUrl = React.useRef();
   const [images, setImages] = React.useState([]);
 
-  let y;
   const [imageList, setImageList] = React.useState([]);
   const [dispImg, setDispImg] = React.useState([]);
-  const [dispLogo, setDispLogo] = React.useState([]);
   const [tweet, setTweet] = React.useState("");
   const [prevLink, setPrevLink] = React.useState("");
+  const [tweetLink, setTweetLink] = React.useState("");
+
   const [isToggled, setIsToggled] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [canvasShow, setCanvasShow] = React.useState(false);
   const [btnShow, setBtnShow] = React.useState(true);
   const [btnHide, setBtnHide] = React.useState(false);
   const [prevHide, setPrevHide] = React.useState(false);
+
+  const [editShow, setEditShow] = React.useState(false);
+  const [check, setCheck] = React.useState(false);
   const [val, setVal] = React.useState([""]);
   const [val2, setVal2] = React.useState([""]);
   const [draw, setDraw] = useState(true);
@@ -199,11 +202,16 @@ function HomePage() {
     newImages.splice(node.index, 1);
     setImages(newImages);
   };
-  let { id } = useParams();
+
   const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
   };
 
+  function editfn() {
+    setShow(false);
+    setPrevHide(true);
+    setEditShow(false);
+  }
   const getBase64Image2 = (url) => {
     const varimg2 = document.createElement("img"); //new Image();
     varimg2.setAttribute("crossOrigin", "anonymous");
@@ -235,7 +243,7 @@ function HomePage() {
       setVal(dataURL);
     };
     varimg.src = url;
-    console.log("base64 = ", val);
+
     return val;
   };
 
@@ -243,6 +251,14 @@ function HomePage() {
     window.location.reload(false);
   }
 
+  function hideImage() {
+    var img = document.getElementById("logo");
+    img.style.visibility = "hidden";
+  }
+  function showImage() {
+    var img = document.getElementById("logo");
+    img.style.visibility = "visible";
+  }
   async function getBase64(file) {
     let result_base64 = await new Promise((resolve) => {
       let reader = new FileReader();
@@ -250,10 +266,10 @@ function HomePage() {
 
       reader.readAsDataURL(file);
     });
-    console.log(result_base64);
+
     return result_base64;
   }
-
+  //for saving as a screenshot
   const takeshot = async () => {
     let div = await document.getElementById("canvass");
     html2canvas(div, {
@@ -278,13 +294,7 @@ function HomePage() {
       image.src = file.data;
     }
   }
-  // const dis = () => {
 
-  //   axios.get(`http://localhost:5000/images/${tmp}`).then((response)=> {
-  //   // setLink(response)
-  //   console.log("response = ",response)
-  // });
-  // }
   const conveImg = (dataURL) => {
     const payload = {
       img: dataURL,
@@ -302,15 +312,11 @@ function HomePage() {
       })
       .then((res) => {
         if (res.key == "Not Found") {
-          // console.log("nahi mila");
-          // setNotfound("Logo not found")
           setTmp(null);
         } else if (res.key === "Search") {
-          // setNotfound("Search for imager")
           setTmp(null);
         } else {
           setTmp(res.key);
-          console.log("res = ", res.key);
         }
       });
   };
@@ -320,7 +326,7 @@ function HomePage() {
       img: dataURL,
     };
     // fetch("http://localhost:5000/api/tmp/url", {
-      fetch("https://logolego.bookmane.in/api/tmp/url", {
+    fetch("https://logolego.bookmane.in/api/tmp/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -332,63 +338,64 @@ function HomePage() {
       })
       .then((res) => {
         if (res.key == "Not Found") {
-          // console.log("nahi mila");
-          // setNotfound("Logo not found")
           setTmp2(null);
         } else if (res.key === "Search") {
-          // setNotfound("Search for imager")
           setTmp2(null);
         } else {
           setTmp2(res.key);
-          console.log("res = ", res.key);
         }
       });
   };
 
+  function setImageVisible(id, visible) {
+    var img = document.getElementById(id);
+    img.style.visibility = visible ? "visible" : "hidden";
+  }
 
   const handleChange = (value) => {
-    // setName(
-    //   "https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www." +
-    //     "https://www.google.com/s2/favicons?sz=128&domain_url=http://www." +
-    //     value +
-    //     ".com&size=128"
-    //   "  https://icons.duckduckgo.com/ip3/www.google.com.ico"
-    // );
-    // setName2(
-      // "https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" +
-      //   value +
-      //   "&size=128"
-    // );
-
-    if (value != null){ 
+    if (value != null) {
       conveImg(value);
-      conveImgURL(value)}
+      conveImgURL(value);
+    }
+    showImage();
   };
 
+  const divRef = React.useRef();
+
   const display = () => {
-    const dataURL = stageEl ? stageEl.current.getStage().toDataURL() : null;
+    // const dataURL = stageEl ? stageEl.current.getStage().toDataURL() : null;
 
-    const payload = {
-      img: dataURL,
-    };
-    // console.log(JSON.stringify(payload))
+    // const payload = {
+    //   img: dataURL,
+    // };
+    // // console.log(JSON.stringify(payload))
 
-    //data.append("json", JSON.stringify(payload))
-    // fetch("http://localhost:5000/api/tmp/save", {
-      fetch("https://logolego.bookmane.in/api/save", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then(function (res) {
-        return res.json();
-      })
-      .then((res) => {
-        setPrevLink(res);
-        console.log(res);
-      });
+    // //data.append("json", JSON.stringify(payload))
+    // // fetch("http://localhost:5000/api/tmp/save", {
+    // fetch("https://logolego.bookmane.in/api/save", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(payload),
+    // })
+    //   .then(function (res) {
+    //     return res.json();
+    //   })
+    //   .then((res) => {
+    //     setPrevLink(res);
+
+    //     sessionStorage.setItem("value", res);
+
+    //     window.location = ('http://localhost:3000/view')
+    //   });
+    sessionStorage.setItem("value", tweetLink);
+    // window.open('http://localhost:3000/view', "_blank")
+    window.open(`https://logolego.bookmane.in/images/${tweetLink}`, "_blank");
+    // window.open("https://logolego.bookmane.in/view", "_blank");
+    // window.open(`http://localhost:3000/images/${tweetLink}`, "_blank")
+
+    // window.location = ('http://localhost:3000/view')
   };
   var x = 1;
   const erase = () => {
@@ -404,6 +411,8 @@ function HomePage() {
     setBtnHide(true);
     setBtnShow(false);
     setPrevHide(true);
+
+    setCheck(true);
   };
 
   const hideCanvas = () => {
@@ -415,19 +424,27 @@ function HomePage() {
 
   const preview = () => {
     const dataURL = stageEl ? stageEl.current.getStage().toDataURL() : null;
-    console.log("dataurl=", dataURL);
-    var link = document.createElement("a");
-    link.href = dataURL;
+
+    // var link = document.createElement("a");
+    // link.href = dataURL;
 
     display(); // saves to db
-    setDispImg(link.href);
 
-    setShow(true);
-    setCanvasShow(false);
-    setPrevHide(false);
-    setBtnHide(false);
+    // setDispImg(link.href);
+    // // setImageVisible("img3",false);
+    // setShow(true);
+    // setCanvasShow(false);
+    // setPrevHide(false);
+    // setBtnHide(false);
+    // clearFields();
   };
-  //end
+
+  function clearFields() {
+    document.getElementById("myInput").value = " ";
+    // document.getElementById("myInput").value = "";
+    // document.getElementById("").value = "";
+  }
+
   const download = () => {
     //get stage dataUrl
     const dataURL = stageEl ? stageEl.current.getStage().toDataURL() : null;
@@ -437,24 +454,22 @@ function HomePage() {
     document.body.appendChild(link);
     // link.click();
     document.body.removeChild(link);
-    console.log(link.href);
   };
 
-  //tried background here
-  const addBG = () => {
-    const rect = {
-      x: getRandomInt(100),
-      y: getRandomInt(100),
-      width: 100,
-      height: 100,
-      strokeWidth: 3, // border width
-      stroke: "black",
-      fill: "white",
-      id: `rect${rectangles.length + 1}`,
-    };
-    const rects = rectangles.concat([rect]);
-    setRectangles(rects);
-    const shs = shapes.concat([`rect${rectangles.length + 1}`]);
+  const addImage = () => {
+    stageEl.current.setPointersPositions();
+    // add image
+
+    const imgs = images.concat([
+      {
+        ...stageEl.current.getRelativePointerPosition(),
+        src: dragUrl.current,
+        id: `imag${images.length + 1}`,
+      },
+    ]);
+
+    setImages(imgs);
+    const shs = shapes.concat([`imag${images.length + 1}`]);
     setShapes(shs);
   };
 
@@ -474,7 +489,12 @@ function HomePage() {
     setRectangles(rects);
     const shs = shapes.concat([`rect${rectangles.length + 1}`]);
     setShapes(shs);
+    console.log(
+      "is",
+      rectangles.findIndex((x) => x.id)
+    );
   };
+
   const addCircle = () => {
     const circ = {
       x: getRandomInt(100),
@@ -498,9 +518,6 @@ function HomePage() {
     addLine(stageEl.current.getStage(), layerEl.current, "erase");
   };
   const doNothing = () => {
-    // setDraw(false)
-    // console.log(draw)
-    // nothing(stageEl.current.getStage(), layerEl.current);
     addLine(stageEl.current.getStage(), layerEl.current, "none");
   };
   const drawText = () => {
@@ -513,28 +530,59 @@ function HomePage() {
 
   const undo = () => {
     const lastId = shapes[shapes.length - 1];
+
     let index = circles.findIndex((c) => c.id === lastId);
     if (index !== -1) {
       circles.splice(index, 1);
       setCircles(circles);
     }
     index = rectangles.findIndex((r) => r.id === lastId);
+
     if (index !== -1) {
       rectangles.splice(index, 1);
       setRectangles(rectangles);
     }
-    // index = images.findIndex((i) => i.id === lastId);
-    // console.log('ind-',index)
-    // if(index !== -1) {
-    //   index = images.length-1
-    //   console.log("len -",index)
-    // //  const newImages = [...images];
-    // images.splice(index, 1);
-    // setImages(images);
-    // }
+
+    index = images.findIndex((x) => x.id === lastId);
+
+    // index = images.length - 1;
+    if (index !== -1) {
+      images.splice(index, 1);
+      setImages(images);
+    }
     shapes.pop();
     setShapes(shapes);
     forceUpdate();
+  };
+
+  const tweetdb = () => {
+    const dataURL = stageEl ? stageEl.current.getStage().toDataURL() : null;
+
+    const payload = {
+      img: dataURL,
+    };
+    console.log(dataURL)
+    fetch("http://localhost:5000/api/save", {
+    // fetch("https://logolego.bookmane.in/api/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then((res) => {
+        setTweetLink(res);
+      });
+  };
+
+  const tweetfn = () => {
+    tweetdb();
+    setShow(true);
+    setEditShow(true);
+    setPrevHide(false);
   };
 
   const undoImage = () => {
@@ -563,7 +611,8 @@ function HomePage() {
         rectangles.splice(index, 1);
         setRectangles(rectangles);
       }
-      index = images.findIndex((i) => i.id === selectedId);
+      index = images.findIndex((i) => i.id === selectedId.id);
+      console.log(index)
       if (index !== -1) {
         images.splice(index, 1);
         setImages(images);
@@ -605,14 +654,17 @@ function HomePage() {
       </div> */}
       <center>
         <div id="input-area">
-          <textarea
+          {/* <textarea */}
+          <input
+            type="text"
             autoComplete="off"
             placeholder="Search for the required logo"
             id="myInput"
-            name="name"
-            className="textzone"
+            // name="name"
+
             onChange={(event) => handleChange(event.target.value)}
           />
+
           {/* <Button color="primary" id="search-btn" onClick = {handleClick}>Search</Button> */}
         </div>
         {btnShow ? (
@@ -628,30 +680,9 @@ function HomePage() {
       </center>
       <div></div>
       {}
+      <center></center>
       <center>
-        
-      </center>
-      <center>
-        {/* <img
-          id="logo"
-          // src = {name}
-          src={tmp}
-          onLoad={loadFn}
-          // width = "60px"
-          // height = "60px"
-          //  src={getBase64Image(name)} //name}
-          // src = 'http://localhost:3000/images/6210893e5d0d95247d43f9d3'//{getBase64Image('http://localhost:3000/images/6210893e5d0d95247d43f9d3')}
-          draggable="true"
-          onDragStart={(e) => {
-            dragUrl.current = e.target.src;
-           
-          }}
-         
-        /> */}
         <img
-          // alt = {notfound}
-          // height="50rem"
-          //     width="50rem"
           key="img3"
           id="logo"
           src={tmp}
@@ -661,10 +692,7 @@ function HomePage() {
             dragUrl.current = e.target.src;
           }}
         />
-       <img
-          // alt = {notfound}
-          // height="50rem"
-          //     width="50rem"
+        <img
           key="img3"
           id="logo"
           src={tmp2}
@@ -675,30 +703,13 @@ function HomePage() {
           }}
         />
 
-        {/* <div
-            onDrop={(e) => {
-              e.preventDefault();
-              // register event position
-              stageEl.current.setPointersPositions(e);
-              // add image
-              setImages(
-                images.concat([
-                  {
-                    ...stageEl.current.getRelativePointerPosition(),
-                    src: dragUrl.current
-                  }
-                ])
-              );
-            }}
-            onDragOver={(e) => e.preventDefault()}
-          ></div> */}
-        <img
+        {/* <img
           src={getBase64Image2(name2)} //name}
           draggable="true"
           onDragStart={(e) => {
             dragUrl.current = e.target.src;
           }}
-        />
+        /> */}
       </center>
 
       {btnHide ? (
@@ -716,7 +727,7 @@ function HomePage() {
 
       <div className="container">
         {canvasShow ? (
-          <div className="bts" role="group" aria-label="Basic example">
+          <div id="bts" role="group" aria-label="Basic example">
             <div></div>
             <Button color="primary" onClick={addRectangle} title="Square">
               <i class="fa-regular fa-square"></i>
@@ -739,19 +750,10 @@ function HomePage() {
             <Button color="primary" onClick={undo} title="Undo Shape">
               <i class="fa-solid fa-delete-left"></i>
             </Button>
-            {/* <Button color="primary" onClick={download} title="download">
-              Export
-            </Button> */}
-            <Button color="primary" onClick={undoImage} title="Undo Image">
-              <i class="fa fa-undo" aria-hidden="true"></i>
-            </Button>
+
             <Button color="primary" onClick={doNothing} title="Pointer">
               <i class="fas fa-mouse-pointer"></i>
             </Button>
-            {/* <Button color="primary" onClick={display}>
-                Save to db
-              </Button> */}
-
             <Button color="primary" onClick={refreshPage} title="Clear">
               Clear
             </Button>
@@ -773,18 +775,37 @@ function HomePage() {
         <div
           onDrop={(e) => {
             e.preventDefault();
+            addImage();
             // register event position
-            stageEl.current.setPointersPositions(e);
-            // add image
+            // stageEl.current.setPointersPositions(e);
+            // // add image
+            // const imag = {
+            //   x: getRandomInt(100),
+            //   y: getRandomInt(100),
+            //   width: 100,
+            //   height: 100,
+            //   strokeWidth: 3, // border width
+            //   id: `imag${images.length + 1}`,
+            // };
 
-            setImages(
-              images.concat([
-                {
-                  ...stageEl.current.getRelativePointerPosition(),
-                  src: dragUrl.current,
-                },
-              ])
-            );
+            // const imgs =  images.concat([
+            //   {
+            //     ...stageEl.current.getRelativePointerPosition(),
+            //     src: dragUrl.current,
+            //   },
+            // ])
+
+            // setImages(imgs
+            //   // images.concat([
+            //   //   {
+            //   //     ...stageEl.current.getRelativePointerPosition(),
+            //   //     src: dragUrl.current,
+            //   //   },
+            //   // ])
+            // );
+            // const shs = shapes.concat([`imag${images.length + 1}`]);
+            // setShapes(shs);
+            // console.log("ids", images.findIndex((x) =>x.id));
           }}
           onDragOver={(e) => e.preventDefault()}
         >
@@ -794,31 +815,35 @@ function HomePage() {
                 onDrop={(e) => {
                   e.preventDefault();
                   // register event position
-                  stageEl.current.setPointersPositions(e);
-                  // add image
-                  setImages(
-                    images.concat([
-                      {
-                        ...stageEl.current.getRelativePointerPosition(),
-                        src: dragUrl.current,
-                      },
-                    ])
-                  );
+
+                  addImage();
+                  // stageEl.current.setPointersPositions(e);
+                  // // add image
+                  // setImages(
+                  //   images.concat([
+                  //     {
+                  //       ...stageEl.current.getRelativePointerPosition(),
+                  //       src: dragUrl.current,
+                  //     },
+                  //   ])
+                  // );
                 }}
                 onDragOver={(e) => e.preventDefault()}
               ></div>
+
               <Stage
                 style={{
                   border: "1px solid grey",
-                  width: "1250px",
+                  width: "1080px",
+                  height: "640px",
                   position: "relative",
                   left: "10px",
                   bottom: "20px",
                   top: "5px",
                   background: "#f4f7f6",
                 }}
-                width={window.innerWidth * 0.775}
-                height={window.innerHeight - 150}
+                width={window.innerWidth * 0.7}
+                height={window.innerHeight - 108}
                 ref={stageEl} //,stageRef}
                 onMouseDown={(e) => {
                   // deselect when clicked on empty area
@@ -829,9 +854,6 @@ function HomePage() {
                 }}
               >
                 <Layer ref={layerEl}>
-                  {/* {images.map((image) => {
-                    return <URLImage image={image} />;
-                  })} */}
                   {images.map((image, index) => {
                     return (
                       <URLImage
@@ -889,71 +911,67 @@ function HomePage() {
                       />
                     );
                   })}
-                  {images.map((image, i) => {
-                    return (
-                      <Image
-                        key={i}
-                        imageUrl={image.content}
-                        isSelected={image.id === selectedId}
-                        onSelect={() => {
-                          selectShape(image.id);
-                        }}
-                        onChange={(newAttrs) => {
-                          const imgs = images.slice();
-                          imgs[i] = newAttrs;
-                        }}
-                      />
-                    );
-                  })}
                 </Layer>
               </Stage>
+              <div id="done-edit" role="group" aria-label="Basic example">
+                {prevHide ? (
+                  <Button
+                    color="primary"
+                    onClick={tweetfn}
+                    title="Done"
+                    id="done-btn"
+                  >
+                    <i class="fa-solid fa-check"></i>
+                  </Button>
+                ) : null}
+                {show ? (
+                  <Button
+                    color="primary"
+                    onClick={preview}
+                    title="Preview"
+                    id="preview-btn"
+                  >
+                    {/* <i class="fa-solid fa-file-image"></i> */}
+                    <i class="fa-solid fa-image"></i>
+                  </Button>
+                ) : null}
+                {editShow ? (
+                  <Button
+                    color="primary"
+                    onClick={editfn}
+                    title="Edit"
+                    id="edit-btn"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </Button>
+                ) : null}
+              </div>
             </div>
           ) : null}
 
-          {prevHide ? (
-            <Button
-              color="primary"
-              onClick={preview}
-              title="Preview"
-              id="preview-btn"
-            >
-              <i class="fas fa-arrow-right"></i>
-            </Button>
-          ) : null}
-
-          {show ? (
-            <button
-              type="button"
-              id="reset-btn"
-              class="btn btn-primary"
-              onClick={erase}
-            >
-              Reset
-            </button>
-          ) : null}
-          <div className="child-preview" id="preview">
-            <img id="preview-image" src={dispImg} width="1000"></img>
-
-            <div className="tweet-text" id="textbox-chars">
-              {show ? (
-                <textarea
-                  className="tweet-text-area"
-                  value={tweet}
-                  onChange={(e) => setTweet(e.target.value)}
-                />
-              ) : null}
-              {/* <link rel="canonical" href="/web/tweet-button"></link> */}
-              {show ? (
-                <a
-                  class="twitter-share-button"
-                  href={`https://twitter.com/intent/tweet?text=${tweet}&url=https://logolego.bookmane.in/images/${prevLink}`}
-                  data-size="large"
-                  target="_blank"
-                >
-                  Tweet
-                </a>
-              ) : null}
-            </div>
+          <div>
+            {show ? (
+              <input
+                type="text"
+                id="tweet-textbox"
+                value={tweet}
+                autoComplete="off"
+                placeholder="Your tweet text goes here"
+                onChange={(e) => setTweet(e.target.value)}
+              />
+            ) : null}
+            {show ? (
+              <a
+                id="twitter-share-button"
+                title="Tweet"
+                href={`https://twitter.com/intent/tweet?text=${tweet}&url=https://logolego.bookmane.in/images/${tweetLink}`}
+                // href={`https://twitter.com/intent/tweet?text=${tweet}&url=https://logolego.bookmane.in/view/${tweetLink}`}
+                data-size="large"
+                target="_blank"
+              >
+                Tweet
+              </a>
+            ) : null}
           </div>
         </div>
       </div>

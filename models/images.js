@@ -5,7 +5,12 @@ const imageSchema = new Schema({
     img:{
         type:String,
         required:true
-    }
+    }   
+    ,
+    comments:[{
+        name: String,
+        body:String
+    }]
 })
 
 const Image = mongoose.model('images', imageSchema);

@@ -21,12 +21,6 @@ function base64_encode(file) {
 
 route.get('/', function(req,res){
   res.send("Hello")
-    // Image.find({}, function(err,docs){
-    //     if(err) res.json(err); 
-    //     else
-    //     res.send(docs)
-
-    // })
 })
 var l;var x;
 const conv = (url) =>{
@@ -34,9 +28,7 @@ const conv = (url) =>{
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         s = "data:" + response.headers["content-type"] + ";base64," + Buffer.from(body).toString('base64');
-        
         x = s;
-        // console.log(x);
         
     }
    
@@ -46,11 +38,9 @@ const conv = (url) =>{
 return x;
 }
 
-
   route.post('/tmp',jsonParser,(req,res) => {
     const data = req.body;
     
-    console.log(req.body)
     const valu = "https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www."+ data.img +".com&size=128"
     request.get(valu, function (error, response, body) {
       var s;
@@ -89,9 +79,9 @@ return x;
       else{
         res.send(JSON.stringify({key:"Not Found"}))
       }
-      // s = undefined;
+
     });
-    // console.log("xyz=",x)
+
     
   });
   
@@ -127,6 +117,31 @@ route.post('/save',jsonParser,function(req,res) {
         console.log(im)
     })
     
+})
+
+route.put('/update/:id',jsonParser,function(req,res){
+  const data = req.body
+  const id  = req.params.id
+  console.log(data.comment.name,id);
+    Image.findByIdAndUpdate({_id: req.params.id},{ $push:{"comments":[{"name":data.comment.name,"body":data.comment.body}]}}, (err, result) => {
+    if (err) {
+      console.log(req.params.id)
+    console.log( "Failed to get clients.")
+  } else {
+    console.log("yes")
+    res.send(result)
+    Image.findOne({_id: req.params.id}, (err, result) => {
+      if (err) {
+          console.log(req.params.id)
+        console.log( "Failed to get clients.")
+      } else {
+        console.log(result);
+        // res.send(result)
+       
+      }
+    });
+  }
+});
 })
 
 module.exports = route;

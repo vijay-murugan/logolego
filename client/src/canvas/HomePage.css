@@ -1,4 +1,4 @@
-textarea {
+#myInput {
     width: 50%;
     height: 50px;
     padding: 12px 20px;
@@ -12,12 +12,25 @@ textarea {
 
   }
 
-textarea:hover{
+#myInput:hover{
   border: 2px solid #f7ddd4;
   box-shadow: 3px 3px 12px 3px #cfcfd6;
 }
 
 
+#tweet-textbox{
+  resize: none;
+  width: 80%;
+  height: 50px;
+  padding: 22px 20px;
+  margin: 20px 20px 10px 190px;
+  box-sizing: border-box;
+  border: 2px solid rgb(206, 196, 196);
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 16px;
+  
+}
 
 img{
   margin: 0px 20px 10px 60px;
@@ -67,29 +80,30 @@ button{
   box-shadow: 3px 2px 22px 1px rgb(255, 209, 4);
 }
 
-.tweet-text-area{
-  height:300px;
-  width:200px;
-  margin:0px;
-  padding:15px;
-}
 
-#preview{
+
+/* #preview{
   display: flex;
-}
+} */
 
-#preview-image{
+/* #preview-image{
   flex:1;
+  display:block;
+} */
 
-}
 
 
 
-.textzone::-webkit-scrollbar {
+/* .textzone::-webkit-scrollbar {
   display: none;
-}
+} */
 #myInput {
   width: 750px;
+  display: inline-block;
+}
+
+#tweet-textbox {
+  width: 800px;
   display: inline-block;
 }
 
@@ -98,18 +112,6 @@ button{
   margin-right:10px;
 }
 
-#dropzone-area{
-  display:grid;
-  grid-auto-flow: column;
-  grid-auto-rows: 150px;
-  margin-left: 0px;
-}
-
-.dropzone{
-  display:grid;
-  margin-left: 500px;
-  
-}
 
 .myInput{
   display:grid;
@@ -123,23 +125,21 @@ button{
   margin-left: 0px;
 }
 
-.bts{
+#bts{
   display: grid;
-  margin-left: 0px;
+  margin-left: 75px;
+  margin-top: 150px;
+  margin-bottom: 125px;
   /* grid-template-columns: 0fr; */
    
 }
 
 .tweet-text{
   margin-left:100px;
+  display:block;
   flex:1;
 }
 
-#tweet-text-id{
-  font-size: 18pt;
-   height: 50px; 
-   width: 800px; 
-}
 
 #reset-btn{
   margin-top:5px;
@@ -152,47 +152,33 @@ button{
 }
 
 #child-canvas{
-  margin-left:25px;
+  margin-left:100px;
   display:inline-flex;
 }
 
 .child-preview{
-display: block;
+/* display: block; */
 float:left; 
 }
 
-.twitter-share-button{
-  display: inline-flex;
-  /* align-self: flex-end; */
+
+
+
+
+#twitter-share-button {
+  display:inline-block;
   color: #fff;
   background-color: #f87a47;
   border-color: #ff4800;
   padding: 9px 18px;
   border-radius: 5px;
-  margin:16px ;
+  margin-top: 25px;
+  margin-right: 0px ;
+  margin-left: 0px ;
   text-decoration: none;
 }
 
-
-/* .upload-icon {
-
-  background-size: 100%;
-  text-align: center;
-  margin: 0 auto;
-  padding: 10px;
-} */
-
-/* .drop-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 40px;
-  width: 400px;
-  height: 100px;
-  border: 4px dashed #f87a47;
-} */
-
-.twitter-share-button:hover {
+#twitter-share-button:hover {
   color: #f87a47;
   background-color: WHITE;
   border-color: #303636
@@ -226,7 +212,25 @@ float:left;
 }
 
 #preview-btn{
-  margin-left:1300px;
+margin-bottom:10px;
   display:inline-flex;
-  border-radius: 40px;
+  border-radius: 10px;
+}
+
+#done-btn {
+  display: grid;
+  
+  border-radius: 10px;
+}
+
+#done-edit{
+  margin-top:325px;
+  margin-left:50px;
+
+}
+
+#edit-btn{
+  display: grid;
+  /* margin-left:10px; */
+  border-radius: 10px;
 }

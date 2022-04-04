@@ -1,0 +1,37 @@
+#view_img{
+    margin-top: 100px;
+    width: 45%;
+}
+
+.twitter-share-button{
+    display:inline-block;
+    color: #fff;
+    background-color: #f87a47;
+    border-color: #ff4800;
+    padding: 9px 18px;
+    border-radius: 5px;
+    margin-top: 25px;
+    margin-right: 370px ;
+    /* margin-left: 400px ; */
+    float:right;
+    text-decoration: none;
+  }
+
+  #tweet-text-area{
+    resize: none;
+    width: 50%;
+    height: 50px;
+    padding: 12px 20px;
+    margin: 20px 10px 10px 210px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 16px;
+  }
+
+#tweet-text-area:hover{
+        border: 2px solid #f7ddd4;
+        box-shadow: 3px 3px 12px 3px #cfcfd6;
+        resize: none;
+      
+}

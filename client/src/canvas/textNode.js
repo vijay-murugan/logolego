@@ -7,6 +7,8 @@ export const addTextNode = (stage, layer) => {
     text: "double click to type here",
     x: 50,
     y: 80,
+    // width: 50,
+    // height: 100,
     fontSize: 20,
     draggable: true,
     width: 200,
@@ -15,10 +17,11 @@ export const addTextNode = (stage, layer) => {
   layer.add(textNode);
   let tr = new Konva.Transformer({
     node: textNode,
-    enabledAnchors: ["middle-left", "middle-right"],
+    enabledAnchors: ["middle-left", "middle-right", "middle-top"],
     // set minimum width of text
     boundBoxFunc: function (oldBox, newBox) {
       newBox.width = Math.max(30, newBox.width);
+      newBox.height = Math.max(30, newBox.height);
       return newBox;
     },
   });
@@ -39,7 +42,11 @@ export const addTextNode = (stage, layer) => {
     // reset scale, so only with is changing by transformer
     textNode.setAttrs({
       width: textNode.width() * textNode.scaleX(),
+      height: textNode.height() * textNode.scaleY(),
       scaleX: 1,
+      scaleY: 1,
+      // width: textNode.width() * textNode.scaleX(),
+      // scaleX: 1,
     });
   });
   layer.add(tr);
@@ -49,10 +56,6 @@ export const addTextNode = (stage, layer) => {
     textNode.hide();
     tr.hide();
     layer.draw();
-    // create textarea over canvas with absolute position
-    // first we need to find position for textarea
-    // how to find it?
-    // at first lets find position of text node relative to the stage:
     let textPosition = textNode.absolutePosition();
     // then lets find position of stage container on the page:
     let stageBox = stage.container().getBoundingClientRect();
@@ -132,6 +135,13 @@ export const addTextNode = (stage, layer) => {
     textarea.addEventListener("keydown", function (e) {
       // hide on enter
       // but don't hide on shift + enter
+      if (e.keyCode === 13) {
+        textNode.text(textarea.value);
+        
+        removeTextarea();
+        tr.hide();
+      }
+   
       if (e.keyCode === 13 && !e.shiftKey) {
         textNode.text(textarea.value);
         removeTextarea();
@@ -140,6 +150,7 @@ export const addTextNode = (stage, layer) => {
       if (e.keyCode === 27) {
         removeTextarea();
       }
+      
     });
     textarea.addEventListener("keydown", function (e) {
       let scale = textNode.getAbsoluteScale().x;

@@ -36,14 +36,29 @@ app.get('/api/images/:id', (req, res) => {
       console.log( "Failed to get clients.")
     } else {
       
-      res.send(result.img)
+      res.send(result)
      
     }
   });
 })
 
+// app.post('/api/update/:id',function(req,res){
+//   const data = req.body
+//   const id  = req.params.id
+//   console.log(data);
+//   console.log(id)
+//   // db.collection('images').update(
+//   //   { _id: userToUpdate},
+//   //      req.body,
+//   //       function(err, result){
+//   //       res.send(
+//   //           (err === null) ? {msg: ''} : {msg: err}
+//   //       );
+//   //      });
+// })
+
 // app.get('/api/images/:id', (req, res) => {
-//   console.log("called");
+//   console.log("called");~
 //   Image.findOne({_id: req.params.id}, (err, result) => {
 //     if (err) {
 //         console.log(req.params.id)

@@ -2,6 +2,7 @@ import Login from "./components/login";
 import HomePage from "./canvas/HomePage";
 import Test from "./canvas/Test"
 import Images from "./components/images"
+import View from "./components/view"
 import "./App.css";
 import { Container } from "react-bootstrap";
 import {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomePage />}></Route>
         <Route path = "/images/:id" element = {<Images/>}/>
+        <Route path = "/view" element = {<View/>}/>
         {/* <Route path="/home" element={<Login />}></Route> */}
         {/* <Route exact path='/images' component={<Images/>} /> */}
        

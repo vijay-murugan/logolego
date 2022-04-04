@@ -21,21 +21,23 @@ export const addLine = (stage, layer, mode ) => {
       
       globalCompositeOperation:
         mode === "brush" ? "source-over" : "destination-out",
+        lineCap: 'round',
       points: [pos.x, pos.y],
-      draggable: mode === "brush",
+
     });
     layer.add(lastLine);
   });
   stage.on("mouseup touchend", function () {
     isPaint = false;
   });
-  stage.on("mousemove touchmove", function () {
+  stage.on("mousemove touchmove", function (e) {
     if (!isPaint) {
       return;
     }
+    e.evt.preventDefault();
     const pos = stage.getPointerPosition();
     let newPoints = lastLine.points().concat([pos.x, pos.y]);
     lastLine.points(newPoints);
-    layer.batchDraw();
+    // layer.batchDraw();
   });
 };
